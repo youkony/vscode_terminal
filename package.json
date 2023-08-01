@@ -11,14 +11,14 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onView:serial-terminal-view",
-    "onCommand:serial-terminal.startTerminal"
+  "activationEvents":[
+    "onView: serial-terminal-view",
+    "onCommand: serial-terminal.startTerminal"
   ],
   "main": "./out/extension.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/youkony/vscode-serial-terminal.git"
+    "url": "git+https://github.com/youkony/vscode-terminal.git"
   },
   "contributes": {
     "viewsContainers": {
@@ -68,9 +68,9 @@
       },
       {
         "command": "serial-terminal.save",
-        "title": "Save Terminal Output to File",
+        "title": "Dump Terminal Output to Editor",
         "category": "Serial Terminal",
-        "icon": "$(save)"
+        "icon": "$(go-to-file)"
       }
     ],
     "menus": {
