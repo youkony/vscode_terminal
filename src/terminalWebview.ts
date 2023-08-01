@@ -47,6 +47,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 				case 'save':
 					const date = new Date();
 					let log = 'Log-dump: ' + date.toLocaleString();
+					log += '\r\n----------------\r\n';
 					log += message.value;
 					vscode.workspace.openTextDocument({
 						language: 'text',
