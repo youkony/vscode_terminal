@@ -99,12 +99,12 @@ export default class TerminalWebview implements WebviewViewProvider {
 				value: port.read().toString()
 			});
 		});
-		commands.executeCommand('setContext', 'listenai.serial-terminal:running', !0);
+		commands.executeCommand('setContext', 'youkony.serial-terminal:running', !0);
 	}
 
 	public async disconnect() {
 		this._port?.close(() => {
-			commands.executeCommand('setContext', 'listenai.serial-terminal:running', !1);
+			commands.executeCommand('setContext', 'youkony.serial-terminal:running', !1);
 			this._port = undefined;
 			this._postMessage({
 				type: 'connected',
@@ -133,12 +133,12 @@ export default class TerminalWebview implements WebviewViewProvider {
 	private _getHtmlForWebview(webview: Webview) {
 		// Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
 		const mainUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'main.js'));
-		const termUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'node_modules', 'xterm', 'lib', 'xterm.js'));
+		const XtermUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'node_modules', 'xterm', 'lib', 'xterm.js'));
 		const fitUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'node_modules', 'xterm-addon-fit', 'lib', 'xterm-addon-fit.js'));
 
 		// Do the same for the stylesheet.
 		const styleVSCodeUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'vscode.css'));
-		const styleTermUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'node_modules', 'xterm', 'css', 'xterm.css'));
+		const styleXtermUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'node_modules', 'xterm', 'css', 'xterm.css'));
 
 		// Use a nonce to only allow a specific script to be run.
 		const nonce = getNonce();
@@ -146,8 +146,8 @@ export default class TerminalWebview implements WebviewViewProvider {
 		return `<!DOCTYPE html>
 			<html lang="en">
 			<head>
-				<link href="${styleTermUri}" rel="stylesheet">
-				<script nonce="${nonce}" src="${termUri}"}</script>
+				<link href="${styleXtermUri}" rel="stylesheet">
+				<script nonce="${nonce}" src="${XtermUri}"}</script>
 				<script nonce="${nonce}" src="${fitUri}"}</script>
 			</head>
 			<body oncontextmenu="return paste()">

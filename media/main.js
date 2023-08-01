@@ -1,10 +1,6 @@
-//@ts-check
 
-const { flattenDiagnosticMessageText, isTemplateMiddleOrTemplateTail } = require("typescript");
-const { FitAddon } = require("xterm-addon-fit");
-
-var term;
-var vscode;
+let term;
+let vscode;
 
 /**
  * @param {{ innerWidth: number; innerHeight: number; }} win
@@ -43,13 +39,10 @@ function paste() {
 
 (function () {
   window.onload = function() {
-    var size = calculateSize(self);
+    //var size = calculateSize(self);
     // @ts-ignore
     term = new Terminal({
-      screenKeys: true,
-      cursorBlink: false,
-      enableBold: true,
-      cols: 150,
+      cols: 120,
       rows: 40
     });
 
@@ -59,10 +52,13 @@ function paste() {
     });
 
     // @ts-ignore
-    fit = new FitAddon.FitAddon();
-    term.loadAddon(fit);
+    //fit = new FitAddon();
+    //term.loadAddon(fit);
 
-    term.open(document.getElementById("terminal"));
+    const termId = document.getElementById("terminal");
+    if(termId !== null) {
+      term.open(termId);
+    }
   };
 
   // @ts-ignore

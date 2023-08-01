@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_1 = require("vscode");
 const serialport_1 = require("serialport");
-const TITLE = '串口配置';
+const TITLE = 'Serial port configuration';
 class InputFlowAction {
 }
 InputFlowAction.back = new InputFlowAction();
@@ -166,7 +166,7 @@ async function pickPrePort(input, state, configs) {
         title: TITLE,
         step: 1,
         totalSteps: 1,
-        placeholder: '选择串口配置',
+        placeholder: 'Select serial port configuration',
         items: resourceGroups,
         buttons: [],
         shouldResume: shouldResume
@@ -189,7 +189,7 @@ async function pickPath(input, state) {
         title: TITLE,
         step: 1,
         totalSteps: 5,
-        placeholder: '选择一个串口',
+        placeholder: 'Choose a serial port',
         items: resourceGroups,
         buttons: [],
         shouldResume: shouldResume
@@ -203,7 +203,7 @@ async function pickBaudRate(input, state) {
         title: TITLE,
         step: 2,
         totalSteps: 5,
-        placeholder: '选择波特率',
+        placeholder: 'Choose baud-rate',
         items: resourceGroups,
         buttons: [],
         shouldResume: shouldResume
@@ -214,7 +214,7 @@ async function pickBaudRate(input, state) {
             title: TITLE,
             step: 2,
             totalSteps: 5,
-            prompt: '输入波特率',
+            prompt: 'Input baud-rate',
             value: '',
             validate: async (name) => {
                 return undefined;
@@ -231,7 +231,7 @@ async function pickDataBits(input, state) {
         title: TITLE,
         step: 3,
         totalSteps: 5,
-        placeholder: '选择数据位',
+        placeholder: 'Select data bits',
         items: resourceGroups,
         buttons: [],
         shouldResume: shouldResume
@@ -245,7 +245,7 @@ async function pickParity(input, state) {
         title: TITLE,
         step: 4,
         totalSteps: 5,
-        placeholder: '选择校验',
+        placeholder: 'Select parity',
         items: resourceGroups,
         buttons: [],
         shouldResume: shouldResume
@@ -259,7 +259,7 @@ async function pickStopBits(input, state) {
         title: TITLE,
         step: 5,
         totalSteps: 5,
-        placeholder: '选择停止位',
+        placeholder: 'Select stop bits',
         items: resourceGroups,
         buttons: [],
         shouldResume: shouldResume
