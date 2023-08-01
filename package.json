@@ -18,7 +18,7 @@
   "main": "./out/extension.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/youkony/vscode-terminal.git"
+    "url": "git+https://github.com/youkony/vscode_terminal.git"
   },
   "contributes": {
     "viewsContainers": {
@@ -82,12 +82,12 @@
         },
         {
           "command": "serial-terminal.startTerminal",
-          "when": "view == serial-terminal-view && !listenai.serial-terminal:running",
+          "when": "view == serial-terminal-view && !youkony.serial-terminal:running",
           "group": "navigation@1"
         },
         {
           "command": "serial-terminal.stopTerminal",
-          "when": "view == serial-terminal-view && listenai.serial-terminal:running",
+          "when": "view == serial-terminal-view && youkony.serial-terminal:running",
           "group": "navigation@1"
         },
         {
