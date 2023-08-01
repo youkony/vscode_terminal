@@ -1,1 +1,1 @@
-# vscode_terminal
+# serial-terminal
