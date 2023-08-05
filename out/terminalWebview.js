@@ -31,7 +31,7 @@ class TerminalWebview {
                 case 'stdin':
                     this._serialWrite(message.value);
                     break;
-                case 'save':
+                case 'dump':
                     const date = new Date();
                     let log = 'Log-dump: ' + date.toLocaleString();
                     log += '\r\n----------------\r\n';
@@ -42,6 +42,12 @@ class TerminalWebview {
                     }).then(doc => {
                         // to do
                     });
+                    break;
+                case 'copy':
+                    vscode.env.clipboard.writeText(message.value);
+                    break;
+                case 'cmd':
+                    console.log('cmd: ' + message.value);
                     break;
             }
         });
@@ -103,7 +109,7 @@ class TerminalWebview {
         this._postMessage({ type: 'clear' });
     }
     async save() {
-        this._postMessage({ type: 'save' });
+        this._postMessage({ type: 'dump' });
     }
     async _save(log) {
         const uri = await vscode_1.window.showSaveDialog({
