@@ -25,15 +25,14 @@ async function serialWrite(data) {
   });
 }
 
-let txData = '';
-function onCmdLine() {
-  console.log('cmdLine: ' + term.buffer.active.getLine(term.buffer.active.cursorY).transslateToString(false));
-}
-
 function paste() {
   const copied = term.getSelection();
   term.clearSelection();
   serialWrite(copied);
+  vscode.postMessage({
+    type: 'copy',
+    value: copied
+  });
   return false;
 }
 
@@ -48,7 +47,12 @@ function paste() {
 
     term.onData(function (data){
       serialWrite(data);
-      onCmdLine();
+
+      const cmd = term.buffer.active.getLine(term.buffer.active.cursorY).transslateToString(false);
+      vscode.postMessage({
+        type: 'cmd',
+        value: cmd
+      });
     });
 
     // @ts-ignore
@@ -82,12 +86,12 @@ function paste() {
         case 'clear':
           term.reset();
           break;
-        case 'save':
+        case 'dump':
           term.selectAll();
           const buf = term.getSelection();
           term.clearSelection();
           vscode.postMessage({
-            type: 'save',
+            type: 'dump',
             value: buf
           });
           break;

@@ -44,7 +44,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 				case 'stdin':
 					this._serialWrite(message.value);
 					break;
-				case 'save':
+				case 'dump':
 					const date = new Date();
 					let log = 'Log-dump: ' + date.toLocaleString();
 					log += '\r\n----------------\r\n';
@@ -55,6 +55,12 @@ export default class TerminalWebview implements WebviewViewProvider {
 					}).then( doc => {
 						// to do
 					});
+					break;
+				case 'copy':
+					vscode.env.clipboard.writeText(message.value);
+					break;
+				case 'cmd':
+					console.log('cmd: ' + message.value);
 					break;
 			}
 		});
@@ -119,7 +125,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 	}
 
 	public async save() {
-		this._postMessage({type: 'save'});
+		this._postMessage({type: 'dump'});
 	}
 
 	private async _save(log: string) {
