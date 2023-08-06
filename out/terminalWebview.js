@@ -122,23 +122,40 @@ class TerminalWebview {
     _getHtmlForWebview(webview) {
         // Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
         const mainUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'media', 'main.js'));
+        const helpUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'media', 'help.js'));
         const XtermUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'node_modules', 'xterm', 'lib', 'xterm.js'));
         const fitUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'node_modules', 'xterm-addon-fit', 'lib', 'xterm-addon-fit.js'));
         // Do the same for the stylesheet.
         const styleVSCodeUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'media', 'vscode.css'));
         const styleXtermUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'node_modules', 'xterm', 'css', 'xterm.css'));
+        const styleHelpUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'media', 'help.css'));
         // Use a nonce to only allow a specific script to be run.
         const nonce = getNonce();
         return `<!DOCTYPE html>
 			<html lang="en">
 			<head>
 				<link href="${styleXtermUri}" rel="stylesheet">
+				<link href="${styleHelpUri}" rel="stylesheet">
 				<script nonce="${nonce}" src="${XtermUri}"}</script>
 				<script nonce="${nonce}" src="${fitUri}"}</script>
 			</head>
 			<body oncontextmenu="return paste()">
+				<!-- help btn --> 
+				<input id='helpbtn' type="button" value="Serial connection guide" class="help-btt">
+
+				<!-- terminal --> 
 				<div id="terminal"></div>
 				<script nonce="${nonce}" src="${mainUri}"></script>
+
+				<!-- help section --> 
+				<section>
+					<ul class="help-lists">
+						<li class="help"><a href="#">command suggestion 1</a></li>
+						<li class="help"><a href="#">command suggestion 2</a></li>
+						<li class="help"><a href="#">command suggestion 3</a></li>
+					</ul>
+				</section>
+				<script nonce="${nonce}" src="${helpUri}"}</script>
 			</body>
 			</html>`;
     }

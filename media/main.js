@@ -52,6 +52,9 @@ function paste() {
       serialWrite(data);
 
       const cmd = term.buffer.active.getLine(term.buffer.active.cursorY).translateToString(false);
+      const helpBtn = document.getElementById('helpbtn');
+      helpBtn.value = 'Command suggestions for ' + cmd; 
+
       vscode.postMessage({
         type: 'cmd',
         value: cmd

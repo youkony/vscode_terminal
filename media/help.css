@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;    
+}
+
+.help-btt {
+   border: none;
+   outline: none;
+   color: #384e64;
+   background-color: transparent;
+   font-size: 2rem; 
+}
+.help-btt:focus {
+   border: none;
+   outline: none;
+   font-style: oblique;
+}
+.help-btt:hover {
+    border: none;
+    outline: none;
+    font-style: oblique;
+}
+
+section {
+    background-color: #34495e;
+    color: #fff;
+    width: 600px;
+    padding-top: 30px;
+    padding-left: 30px;
+    position: absolute;
+    top: 0;
+    left: -600px;
+    bottom: 0;
+    transition: 1s ease;
+}
+.help-lists {
+    padding-left: 45px;
+}
+.help {
+    margin: 30px 0;
+}
+.help:nth-child(1) {
+    margin-top: 50px;
+}
+.help a {
+    color: #fff;
+    text-decoration: none;
+}
