@@ -25,14 +25,17 @@ async function serialWrite(data) {
   });
 }
 
+let copied = ''; 
 function paste() {
-  const copied = term.getSelection();
-  term.clearSelection();
+  if(term.hasSelection() == true) {
+    copied = term.getSelection();
+    term.clearSelection();
+    vscode.postMessage({
+      type: 'copy',
+      value: copied
+    });
+  }
   serialWrite(copied);
-  vscode.postMessage({
-    type: 'copy',
-    value: copied
-  });
   return false;
 }
 
@@ -48,7 +51,7 @@ function paste() {
     term.onData(function (data){
       serialWrite(data);
 
-      const cmd = term.buffer.active.getLine(term.buffer.active.cursorY).transslateToString(false);
+      const cmd = term.buffer.active.getLine(term.buffer.active.cursorY).translateToString(false);
       vscode.postMessage({
         type: 'cmd',
         value: cmd
