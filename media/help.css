@@ -4,22 +4,23 @@
     box-sizing: border-box;    
 }
 
-.help-btt {
+.history {
    border: none;
    outline: none;
-   color: #384e64;
+   color: #167a09;
    background-color: transparent;
-   font-size: 2rem; 
+   font-size: 1.2em;
+   font-family: 'Courier New', Courier, monospace;
+   font-weight: bolder;
 }
-.help-btt:focus {
+.history:focus {
    border: none;
    outline: none;
-   font-style: oblique;
-}
-.help-btt:hover {
+} 
+.history:hover {
     border: none;
     outline: none;
-    font-style: oblique;
+    color: #f3c90b;
 }
 
 section {
@@ -34,16 +35,17 @@ section {
     bottom: 0;
     transition: 1s ease;
 }
-.help-lists {
-    padding-left: 45px;
+
+.cmd-help {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    width: 90%;
+    height: 90%;
+    resize: none;
 }
-.help {
-    margin: 30px 0;
-}
-.help:nth-child(1) {
-    margin-top: 50px;
-}
-.help a {
-    color: #fff;
-    text-decoration: none;
-}
+.cmd-help:focus {
+    border: none;
+    outline: none;
+ }
+ 

@@ -141,7 +141,9 @@ class TerminalWebview {
 			</head>
 			<body oncontextmenu="return paste()">
 				<!-- help btn --> 
-				<input id='helpbtn' type="button" value="Serial connection guide" class="help-btt">
+				<input id='history1' type="button" value=" - " class="history"><br>
+				<input id='history2' type="button" value=" - " class="history"><br>
+				<input id='history3' type="button" value=" - " class="history"><br>
 
 				<!-- terminal --> 
 				<div id="terminal"></div>
@@ -149,11 +151,7 @@ class TerminalWebview {
 
 				<!-- help section --> 
 				<section>
-					<ul class="help-lists">
-						<li class="help"><a href="#">command suggestion 1</a></li>
-						<li class="help"><a href="#">command suggestion 2</a></li>
-						<li class="help"><a href="#">command suggestion 3</a></li>
-					</ul>
+					<textarea id="cmd-help" class="cmd-help"></textarea> 
 				</section>
 				<script nonce="${nonce}" src="${helpUri}"}</script>
 			</body>
