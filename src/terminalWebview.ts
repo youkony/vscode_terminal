@@ -128,15 +128,6 @@ export default class TerminalWebview implements WebviewViewProvider {
 		this._postMessage({type: 'dump'});
 	}
 
-	private async _save(log: string) {
-		const uri = await window.showSaveDialog({
-			title: 'yoyo'
-		});
-		if (uri?.path) {
-			await writeFile(uri?.path, log);
-		}
-	}
-
 	private _getHtmlForWebview(webview: Webview) {
 		// Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
 		const mainUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'main.js'));

@@ -26,12 +26,12 @@ interface InputBoxParameters {
 }
 
 interface State {
-  title: string;
-  step: number;
-  totalSteps: number;
-  path: string;
-  baudRate: string;
-  dataBits: 5 | 6 | 7 | 8 | undefined;
+	title: string;
+  	step: number;
+  	totalSteps: number;
+  	path: string;
+  	baudRate: string;
+  	dataBits: 5 | 6 | 7 | 8 | undefined;
 	stopBits: 1 | 2;
 	parity: 'none' | 'even' | 'mark' | 'odd' | 'space';
 }
