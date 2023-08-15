@@ -51,9 +51,18 @@ function paste() {
     term.onData(function (data){
       serialWrite(data);
 
-      const cmd = term.buffer.active.getLine(term.buffer.active.cursorY).translateToString(false);
-      const helpBtn = document.getElementById('helpbtn');
-      helpBtn.value = 'Command suggestions for ' + cmd; 
+      let cmd = term.buffer.active.getLine(term.buffer.active.cursorY).translateToString(false);
+      const ascii = data.charCodeAt(0);
+      if( 31 < ascii && ascii <  127) {
+        cmd = cmd + data; // ? 
+      }
+
+      const history_1 = document.getElementById('history1');
+      const history_2 = document.getElementById('history2');
+      const history_3 = document.getElementById('history3');
+      history_1.value = cmd; 
+      history_2.value = cmd; 
+      history_3.value = cmd; 
 
       vscode.postMessage({
         type: 'cmd',
