@@ -6,7 +6,7 @@ import { writeFile } from 'fs-extra';
 
 export default class TerminalWebview implements WebviewViewProvider {
 
-	public static readonly id = 'serial-terminal-view';
+	public static readonly id = 'serial-xterm-view';
 
 	private _port?: SerialPort;
 	private _view?: WebviewView;
@@ -46,7 +46,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 					break;
 				case 'dump':
 					const date = new Date();
-					let log = 'Log-dump: ' + date.toLocaleString();
+					let log = 'serial-xterm.dump: ' + date.toLocaleString();
 					log += '\r\n----------------\r\n';
 					log += message.value;
 					vscode.workspace.openTextDocument({
@@ -106,12 +106,12 @@ export default class TerminalWebview implements WebviewViewProvider {
 				value: port.read().toString()
 			});
 		});
-		commands.executeCommand('setContext', 'youkony.serial-terminal:running', !0);
+		commands.executeCommand('setContext', 'serial-xterm:running', !0);
 	}
 
 	public async disconnect() {
 		this._port?.close(() => {
-			commands.executeCommand('setContext', 'youkony.serial-terminal:running', !1);
+			commands.executeCommand('setContext', 'serial-xterm:running', !1);
 			this._port = undefined;
 			this._postMessage({
 				type: 'connected',
@@ -124,7 +124,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 		this._postMessage({type: 'clear'});
 	}
 
-	public async save() {
+	public async dump() {
 		this._postMessage({type: 'dump'});
 	}
 
@@ -132,6 +132,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 		// Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
 		const mainUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'main.js'));
 		const helpUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'help.js'));
+		const usageUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'usage.html'));
 
 		const XtermUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'node_modules', 'xterm', 'lib', 'xterm.js'));
 		const fitUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'node_modules', 'xterm-addon-fit', 'lib', 'xterm-addon-fit.js'));
@@ -154,17 +155,25 @@ export default class TerminalWebview implements WebviewViewProvider {
 			</head>
 			<body oncontextmenu="return paste()">
 				<!-- help btn --> 
-				<input id='history1' type="button" value=" - " class="history"><br>
-				<input id='history2' type="button" value=" - " class="history"><br>
-				<input id='history3' type="button" value=" - " class="history"><br>
+				<input id='help' type="button" value="Help" class="help"><br>
 
 				<!-- terminal --> 
 				<div id="terminal"></div>
 				<script nonce="${nonce}" src="${mainUri}"></script>
 
-				<!-- help section --> 
+				<!-- help-view section --> 
 				<section>
-					<textarea id="cmd-help" class="cmd-help"></textarea> 
+					<h1>Serial Xterm - v0.9.0</h1>
+					<p><strong>Serial Xterm</strong> is a Visual Studio Code extension designed to facilitate communication with serial devices directly from your editor. It provides an integrated terminal with features such as transmit (TX), receive (RX), terminal clearing, and the ability to dump terminal output for further analysis.</p>	
+					<h2>Features</h2>
+					<ul>
+						<li><strong>Transmit (TX):</strong> Send data to the connected serial device directly from the VS Code terminal.</li>
+						<li><strong>Receive (RX):</strong> Receive and display data from the serial device in real-time.</li>
+						<li><strong>Terminal Clear:</strong> Clear the terminal to manage output more effectively.</li>
+						<li><strong>Dump Terminal Output:</strong> Save the current terminal output to a file for later analysis or logging purposes.</li>
+					</ul>
+
+					<textarea id="help-view" class="help-view"></textarea> 
 				</section>
 				<script nonce="${nonce}" src="${helpUri}"}</script>
 			</body>

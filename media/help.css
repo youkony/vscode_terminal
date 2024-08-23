@@ -4,7 +4,7 @@
     box-sizing: border-box;    
 }
 
-.history {
+.help {
    border: none;
    outline: none;
    color: #167a09;
@@ -13,11 +13,11 @@
    font-family: 'Courier New', Courier, monospace;
    font-weight: bolder;
 }
-.history:focus {
+.help:focus {
    border: none;
    outline: none;
 } 
-.history:hover {
+.help:hover {
     border: none;
     outline: none;
     color: #f3c90b;
@@ -36,7 +36,7 @@ section {
     transition: 1s ease;
 }
 
-.cmd-help {
+.help-view {
     background-color: transparent;
     border: none;
     outline: none;
@@ -44,7 +44,7 @@ section {
     height: 90%;
     resize: none;
 }
-.cmd-help:focus {
+.help-view:focus {
     border: none;
     outline: none;
  }

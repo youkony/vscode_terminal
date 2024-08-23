@@ -44,23 +44,6 @@ function paste() {
 
     term.onData(function (data){
       serialWrite(data);
-
-      const ascii = data.charCodeAt(0);
-      const ch = (31 < ascii && ascii <  127) ? data : '';
-
-      let cmd = term.buffer.active.getLine(term.buffer.active.cursorY).translateToString(false);
-
-      const history_1 = document.getElementById('history1');
-      const history_2 = document.getElementById('history2');
-      const history_3 = document.getElementById('history3');
-      history_1.value = cmd + ch;  
-      history_2.value = cmd + ch;
-      history_3.value = cmd + ch; 
-
-      vscode.postMessage({
-        type: 'cmd',
-        value: cmd + ch
-      });
     });
 
     // @ts-ignore

@@ -1,8 +1,8 @@
 {
-  "name": "serial-terminal",
-  "displayName": "Serial Terminal",
-  "description": "A serial terminal for VS Code",
-  "version": "0.0.3",
+  "name": "serial-xterm",
+  "displayName": "Serial xTerm",
+  "description": "A serial terminal using xTerm",
+  "version": "0.9.0",
   "publisher": "youkony",
   "icon": "icon.png",
   "engines": {
@@ -12,8 +12,8 @@
     "Other"
   ],
   "activationEvents":[
-    "onView: serial-terminal-view",
-    "onCommand: serial-terminal.startTerminal"
+    "onView: serial-xterm-view",
+    "onCommand: serial-xterm.startTerminal"
   ],
   "main": "./out/extension.js",
   "repository": {
@@ -24,75 +24,75 @@
     "viewsContainers": {
       "panel": [
         {
-          "id": "serial-terminal",
-          "title": "Serial Terminal",
+          "id": "serial-xterm",
+          "title": "Serial xTerm",
           "icon": "src/terminal.svg"
         }
       ]
     },
     "views": {
-      "serial-terminal": [
+      "serial-xterm": [
         {
-          "id": "serial-terminal-view",
+          "id": "serial-xterm-view",
           "type": "webview",
-          "name": "Serial Terminal",
+          "name": "Serial xTerm",
           "icon": "src/terminal.svg",
-          "contextualTitle": "Serial Terminal"
+          "contextualTitle": "Serial xTerm"
         }
       ]
     },
     "commands": [
       {
-        "command": "serial-terminal.startTerminal",
+        "command": "serial-xterm.start",
         "title": "Start Terminal With New Configuration",
-        "category": "Serial Terminal",
+        "category": "Serial xTerm",
         "icon": {
           "dark": "static/images/dark/connect.svg",
           "light": "static/images/light/connect.svg"
         }
       },
       {
-        "command": "serial-terminal.stopTerminal",
+        "command": "serial-xterm.stop",
         "title": "Stop Terminal",
-        "category": "Serial Terminal",
+        "category": "Serial xTerm",
         "icon": {
           "dark": "static/images/dark/disconnect.svg",
           "light": "static/images/light/disconnect.svg"
         }
       },
       {
-        "command": "serial-terminal.clear",
+        "command": "serial-xterm.clear",
         "title": "Clear",
-        "category": "Serial Terminal",
+        "category": "Serial xTerm",
         "icon": "$(clear-all)"
       },
       {
-        "command": "serial-terminal.save",
+        "command": "serial-xterm.dump",
         "title": "Dump Terminal Output to Editor",
-        "category": "Serial Terminal",
+        "category": "Serial xTerm",
         "icon": "$(go-to-file)"
       }
     ],
     "menus": {
       "view/title": [
         {
-          "command": "serial-terminal.clear",
-          "when": "view == serial-terminal-view",
+          "command": "serial-xterm.clear",
+          "when": "view == serial-xterm-view",
           "group": "navigation@0"
         },
         {
-          "command": "serial-terminal.startTerminal",
-          "when": "view == serial-terminal-view && !youkony.serial-terminal:running",
+          "command": "serial-xterm.start",
+          "when": "view == serial-xterm-view && !serial-xterm:running",
           "group": "navigation@1"
         },
         {
-          "command": "serial-terminal.stopTerminal",
-          "when": "view == serial-terminal-view && youkony.serial-terminal:running",
+          "command": "serial-xterm.stop",
+          "when": "view == serial-xterm-view && serial-xterm:running",
           "group": "navigation@1"
         },
         {
-          "command": "serial-terminal.save",
-          "when": "view == serial-terminal-view",
+          "command": "serial-xterm.dump",
+          "when": "view == serial-xterm-view",
           "group": "navigation@2"
         }
       ]
