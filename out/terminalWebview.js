@@ -4,7 +4,6 @@ const vscode = require("vscode");
 const vscode_1 = require("vscode");
 const multiStepSerialConfig_1 = require("./multiStepSerialConfig");
 const serialport_1 = require("serialport");
-const fs_extra_1 = require("fs-extra");
 class TerminalWebview {
     constructor(context) {
         this.context = context;
@@ -33,7 +32,7 @@ class TerminalWebview {
                     break;
                 case 'dump':
                     const date = new Date();
-                    let log = 'Log-dump: ' + date.toLocaleString();
+                    let log = 'serial-xterm.dump: ' + date.toLocaleString();
                     log += '\r\n----------------\r\n';
                     log += message.value;
                     vscode.workspace.openTextDocument({
@@ -93,11 +92,11 @@ class TerminalWebview {
                 value: port.read().toString()
             });
         });
-        vscode_1.commands.executeCommand('setContext', 'youkony.serial-terminal:running', !0);
+        vscode_1.commands.executeCommand('setContext', 'serial-xterm:running', !0);
     }
     async disconnect() {
         this._port?.close(() => {
-            vscode_1.commands.executeCommand('setContext', 'youkony.serial-terminal:running', !1);
+            vscode_1.commands.executeCommand('setContext', 'serial-xterm:running', !1);
             this._port = undefined;
             this._postMessage({
                 type: 'connected',
@@ -108,21 +107,14 @@ class TerminalWebview {
     async clear() {
         this._postMessage({ type: 'clear' });
     }
-    async save() {
+    async dump() {
         this._postMessage({ type: 'dump' });
-    }
-    async _save(log) {
-        const uri = await vscode_1.window.showSaveDialog({
-            title: 'yoyo'
-        });
-        if (uri?.path) {
-            await (0, fs_extra_1.writeFile)(uri?.path, log);
-        }
     }
     _getHtmlForWebview(webview) {
         // Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
         const mainUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'media', 'main.js'));
         const helpUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'media', 'help.js'));
+        const usageUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'media', 'usage.html'));
         const XtermUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'node_modules', 'xterm', 'lib', 'xterm.js'));
         const fitUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'node_modules', 'xterm-addon-fit', 'lib', 'xterm-addon-fit.js'));
         // Do the same for the stylesheet.
@@ -141,17 +133,25 @@ class TerminalWebview {
 			</head>
 			<body oncontextmenu="return paste()">
 				<!-- help btn --> 
-				<input id='history1' type="button" value=" - " class="history"><br>
-				<input id='history2' type="button" value=" - " class="history"><br>
-				<input id='history3' type="button" value=" - " class="history"><br>
+				<input id='help' type="button" value="Help" class="help"><br>
 
 				<!-- terminal --> 
 				<div id="terminal"></div>
 				<script nonce="${nonce}" src="${mainUri}"></script>
 
-				<!-- help section --> 
+				<!-- help-view section --> 
 				<section>
-					<textarea id="cmd-help" class="cmd-help"></textarea> 
+					<h1>Serial Xterm - v0.9.0</h1>
+					<p><strong>Serial Xterm</strong> is a Visual Studio Code extension designed to facilitate communication with serial devices directly from your editor. It provides an integrated terminal with features such as transmit (TX), receive (RX), terminal clearing, and the ability to dump terminal output for further analysis.</p>	
+					<h2>Features</h2>
+					<ul>
+						<li><strong>Transmit (TX):</strong> Send data to the connected serial device directly from the VS Code terminal.</li>
+						<li><strong>Receive (RX):</strong> Receive and display data from the serial device in real-time.</li>
+						<li><strong>Terminal Clear:</strong> Clear the terminal to manage output more effectively.</li>
+						<li><strong>Dump Terminal Output:</strong> Save the current terminal output to a file for later analysis or logging purposes.</li>
+					</ul>
+
+					<textarea id="help-view" class="help-view"></textarea> 
 				</section>
 				<script nonce="${nonce}" src="${helpUri}"}</script>
 			</body>
@@ -169,8 +169,8 @@ class TerminalWebview {
         }
     }
 }
+TerminalWebview.id = 'serial-xterm-view';
 exports.default = TerminalWebview;
-TerminalWebview.id = 'serial-terminal-view';
 function getNonce() {
     let text = '';
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

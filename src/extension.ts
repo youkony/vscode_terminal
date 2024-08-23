@@ -9,18 +9,18 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const terminal = new TerminalWebview(context);
 
-	context.subscriptions.push(vscode.commands.registerCommand('serial-terminal.stopTerminal', () => {
+	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.stop', () => {
 		terminal.disconnect();
 	}));
-	context.subscriptions.push(vscode.commands.registerCommand('serial-terminal.clear', () => {
-		vscode.window.showInformationMessage('serial-terminal.clear!');
+	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.clear', () => {
+		vscode.window.showInformationMessage('serial-xterm.clear!');
 		terminal.clear();
 	}));
-	context.subscriptions.push(vscode.commands.registerCommand('serial-terminal.startTerminal', () => {
+	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.start', () => {
 		terminal.connect();
 	}));
-	context.subscriptions.push(vscode.commands.registerCommand('serial-terminal.save', () => {
-		terminal.save();
+	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.dump', () => {
+		terminal.dump();
 	}));
 
 }
