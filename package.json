@@ -2,7 +2,7 @@
   "name": "serial-xterm",
   "displayName": "Serial xTerm",
   "description": "A serial terminal using xTerm",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "publisher": "youkony",
   "icon": "icon.png",
   "engines": {
@@ -20,6 +20,9 @@
     "type": "git",
     "url": "git+https://github.com/youkony/vscode_terminal.git"
   },
+  "extensionKind": [
+    "ui", "workspace"
+  ],
   "contributes": {
     "viewsContainers": {
       "panel": [
