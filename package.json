@@ -74,6 +74,11 @@
         "title": "Dump Terminal Output to Editor",
         "category": "Serial xTerm",
         "icon": "$(go-to-file)"
+      },
+      {
+        "command": "serial-xterm.send",
+        "title": "Send the data in argument to serial port",
+        "category": "Serial xTerm"
       }
     ],
     "menus": {

@@ -22,7 +22,9 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.dump', () => {
 		terminal.dump();
 	}));
-
+	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.send', (args: any) => {
+		terminal.send(args);
+	}));
 }
 
 // this method is called when your extension is deactivated

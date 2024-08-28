@@ -110,6 +110,14 @@ class TerminalWebview {
     async dump() {
         this._postMessage({ type: 'dump' });
     }
+    async send(args) {
+        if (this._port?.isOpen) {
+            this._serialWrite(args.value);
+        }
+        else {
+            vscode.window.showInformationMessage('Port is not opened. Can not send: ' + args.value);
+        }
+    }
     _getHtmlForWebview(webview) {
         // Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
         const mainUri = webview.asWebviewUri(vscode_1.Uri.joinPath(this._extensionUri, 'media', 'main.js'));

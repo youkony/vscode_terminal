@@ -10,7 +10,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 
 	private _port?: SerialPort;
 	private _view?: WebviewView;
-  private readonly _extensionUri: Uri;
+    private readonly _extensionUri: Uri;
 
 	constructor(protected context: ExtensionContext) {
     this._extensionUri = context.extensionUri;
@@ -19,7 +19,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 				retainContextWhenHidden: true
 			}
 		}));
-  }
+    }
 
 	public resolveWebviewView(
 		webviewView: WebviewView,
@@ -126,6 +126,15 @@ export default class TerminalWebview implements WebviewViewProvider {
 
 	public async dump() {
 		this._postMessage({type: 'dump'});
+	}
+
+	public async send(args: any) {
+		if (this._port?.isOpen) {
+			this._serialWrite(args.value);
+		}
+		else{
+			vscode.window.showInformationMessage('Port is not opened. Can not send: ' + args.value);
+		}
 	}
 
 	private _getHtmlForWebview(webview: Webview) {
