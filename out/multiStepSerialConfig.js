@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = multiSerailConfig;
 const vscode_1 = require("vscode");
 const serialport_1 = require("serialport");
 const TITLE = 'Serial port configuration';
@@ -152,6 +151,7 @@ async function multiSerailConfig(configs) {
     await MultiStepInput.run(input => pickPrePort(input, state, configs));
     return state;
 }
+exports.default = multiSerailConfig;
 async function pickPrePort(input, state, configs) {
     if (!configs?.length) {
         return (input) => pickPath(input, state);

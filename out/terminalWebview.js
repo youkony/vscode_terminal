@@ -177,8 +177,8 @@ class TerminalWebview {
         }
     }
 }
-TerminalWebview.id = 'serial-xterm-view';
 exports.default = TerminalWebview;
+TerminalWebview.id = 'serial-xterm-view';
 function getNonce() {
     let text = '';
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
