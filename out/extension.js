@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.activate = activate;
-exports.deactivate = deactivate;
+exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
 const terminalWebview_1 = require("./terminalWebview");
 function activate(context) {
@@ -24,6 +23,8 @@ function activate(context) {
         terminal.send(args);
     }));
 }
+exports.activate = activate;
 // this method is called when your extension is deactivated
 function deactivate() { }
+exports.deactivate = deactivate;
 //# sourceMappingURL=extension.js.map
