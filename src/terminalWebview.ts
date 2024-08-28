@@ -198,9 +198,13 @@ export default class TerminalWebview implements WebviewViewProvider {
 
 	private _postMessage(data: object) {
 		if (this._view) {
-			this._view.show?.(true);
+			//this._view.show?.(true);
 			this._view.webview.postMessage(data);
+			this._pipeMessage(data);
 		}
+	}
+
+	private _pipeMessage(data: object) {
 		const _data: any = data;
 		if(_data.type == 'stdout' && this._pipe?.includes('.pipe')) {
 			vscode.commands.executeCommand(this._pipe, _data);

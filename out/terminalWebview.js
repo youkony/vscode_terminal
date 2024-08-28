@@ -170,9 +170,12 @@ class TerminalWebview {
     }
     _postMessage(data) {
         if (this._view) {
-            this._view.show?.(true);
+            //this._view.show?.(true);
             this._view.webview.postMessage(data);
+            this._pipeMessage(data);
         }
+    }
+    _pipeMessage(data) {
         const _data = data;
         if (_data.type == 'stdout' && this._pipe?.includes('.pipe')) {
             vscode.commands.executeCommand(this._pipe, _data);
