@@ -79,6 +79,11 @@
         "command": "serial-xterm.send",
         "title": "Send the data in argument to serial port",
         "category": "Serial xTerm"
+      },
+      {
+        "command": "serial-xterm.pipe",
+        "title": "Forward the received data from serial port to pipe",
+        "category": "Serial xTerm"
       }
     ],
     "menus": {

@@ -115,7 +115,7 @@ class TerminalWebview {
             this._serialWrite(args.value);
         }
         else {
-            vscode.window.showInformationMessage('Port is not opened. Can not send: ' + args.value);
+            vscode.window.showInformationMessage('Port is not opened. Can not send: \"' + args.value + '\"');
         }
     }
     _getHtmlForWebview(webview) {
