@@ -26,7 +26,12 @@ export function activate(context: vscode.ExtensionContext) {
 		termView.send(args);
 	}));
 	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.pipe', (args: any) => {
-        vscode.commands.executeCommand(args.id, args);
+		if(args.pipe == 'serial-xterm.send') {  // self test
+			vscode.commands.executeCommand(args.pipe, args);
+		} 
+		else {
+			termView.setPipe(args);
+		}
 	}));
 }
 
