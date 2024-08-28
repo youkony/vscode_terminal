@@ -11,6 +11,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 	private _port?: SerialPort;
 	private _view?: WebviewView;
     private readonly _extensionUri: Uri;
+	private _pipe?: string;
 
 	constructor(protected context: ExtensionContext) {
     this._extensionUri = context.extensionUri;
@@ -99,6 +100,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 			type: 'connected',
 			value: true
 		});
+		
 		let self = this;
 		port.on('readable', function () {
 			self._postMessage({
@@ -106,6 +108,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 				value: port.read().toString()
 			});
 		});
+		
 		commands.executeCommand('setContext', 'serial-xterm:running', !0);
 	}
 
@@ -118,6 +121,10 @@ export default class TerminalWebview implements WebviewViewProvider {
 				value: false
 			});
 		});
+	}
+
+	public async setPipe(args: any) {
+		this._pipe = args.id;
 	}
 
 	public async clear() {
@@ -194,6 +201,10 @@ export default class TerminalWebview implements WebviewViewProvider {
 			this._view.show?.(true);
 			this._view.webview.postMessage(data);
 		}
+		const _data: any = data;
+		if(_data.type == 'stdout' && this._pipe?.includes('.pipe')) {
+			vscode.commands.executeCommand(this._pipe, _data);
+		} 
 	}
 
 	private _serialWrite(buffer: Uint8Array) {

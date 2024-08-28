@@ -104,6 +104,9 @@ class TerminalWebview {
             });
         });
     }
+    async setPipe(args) {
+        this._pipe = args.id;
+    }
     async clear() {
         this._postMessage({ type: 'clear' });
     }
@@ -169,6 +172,10 @@ class TerminalWebview {
         if (this._view) {
             this._view.show?.(true);
             this._view.webview.postMessage(data);
+        }
+        const _data = data;
+        if (_data.type == 'stdout' && this._pipe?.includes('.pipe')) {
+            vscode.commands.executeCommand(this._pipe, _data);
         }
     }
     _serialWrite(buffer) {
