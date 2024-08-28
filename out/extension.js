@@ -22,6 +22,10 @@ function activate(context) {
     context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.send', (args) => {
         terminal.send(args);
     }));
+    context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.pipe', (args) => {
+        vscode.commands.executeCommand(args.id, args);
+        vscode.window.showInformationMessage('forward \"' + args.value + "\" to " + args.id);
+    }));
 }
 exports.activate = activate;
 // this method is called when your extension is deactivated
