@@ -82,7 +82,7 @@
       },
       {
         "command": "serial-xterm.pipe",
-        "title": "Forward the received data from serial port to pipe",
+        "title": "Connect pipe to requester for RX data",
         "category": "Serial xTerm"
       }
     ],
