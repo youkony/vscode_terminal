@@ -4,7 +4,7 @@
 
 **Serial Xterm** is a Visual Studio Code extension designed to facilitate communication with serial devices directly from your editor. It provides an integrated terminal with features such as transmit (TX), receive (RX), terminal clearing, and the ability to dump terminal output for further analysis.
 
-![Serial Xterm](./serial-xterm.gif)
+![Serial Xterm](https://raw.githubusercontent.com/youkony/vscode_terminal/main/serial-xterm.gif?token=GHSAT0AAAAAACWKVLVKGYVVS6J2DXJ47VVWZWQCLVQ)
 
 ## Usage
 
