@@ -179,14 +179,15 @@ export default class TerminalWebview implements WebviewViewProvider {
 
 				<!-- help-view section --> 
 				<section>
-					<h1>Serial Xterm - v0.9.4</h1>
+					<h1>Serial Xterm - v0.9.5</h1>
 					<p><strong>Serial Xterm</strong> is a Visual Studio Code extension designed to facilitate communication with serial devices directly from your editor. It provides an integrated terminal with features such as transmit (TX), receive (RX), terminal clearing, and the ability to dump terminal output for further analysis.</p>	
 					<h2>Features</h2>
 					<ul>
-						<li><strong>Transmit (TX):</strong> Send data to the connected serial device directly from the VS Code terminal.</li>
+						<li><strong>Transmit (TX):</strong> Send the typed characters to the connected serial device directly.</li>
 						<li><strong>Receive (RX):</strong> Receive and display data from the serial device in real-time.</li>
 						<li><strong>Terminal Clear:</strong> Clear the terminal to manage output more effectively.</li>
 						<li><strong>Dump Terminal Output:</strong> Dump the current terminal output to a new editor for further analysis or logging purposes.</li>
+						<li><strong>Copy and Paste by L-Button Click:</strong> Copy the selected text by L-Button click and paste it in cursor position by L-Button Click.</li> 
 					</ul>
 
 					<textarea id="help-view" class="help-view"></textarea> 

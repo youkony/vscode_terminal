@@ -2,7 +2,7 @@
   "name": "serial-xterm",
   "displayName": "Serial xTerm",
   "description": "A serial terminal using xTerm",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "publisher": "youkony",
   "icon": "icon.png",
   "engines": {
@@ -11,7 +11,7 @@
   "categories": [
     "Other"
   ],
-  "activationEvents":[
+  "activationEvents": [
     "onView: serial-xterm-view",
     "onCommand: serial-xterm.startTerminal"
   ],
@@ -21,7 +21,8 @@
     "url": "git+https://github.com/youkony/vscode_terminal.git"
   },
   "extensionKind": [
-    "ui", "workspace"
+    "ui",
+    "workspace"
   ],
   "contributes": {
     "viewsContainers": {
@@ -134,8 +135,10 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "@vscode/vsce": "^3.0.0",
     "fs-extra": "^10.1.0",
     "serialport": "^10.4.0",
+    "vsce": "^2.15.0",
     "xterm": "^5.2.1",
     "xterm-addon-fit": "^0.7.0"
   }
