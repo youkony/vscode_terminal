@@ -160,6 +160,7 @@ class TerminalWebview {
 						<li><strong>Receive (RX):</strong> Receive and display data from the serial device in real-time.</li>
 						<li><strong>Terminal Clear:</strong> Clear the terminal to manage output more effectively.</li>
 						<li><strong>Dump Terminal Output:</strong> Dump the current terminal output to a new editor for further analysis or logging purposes.</li>
+						<li><strong>Copy and Paste by L-Button Click:</strong> Copy the selected text by L-Button click and paste it in cursor position by L-Button Click.</li> 
 					</ul>
 
 					<textarea id="help-view" class="help-view"></textarea> 
