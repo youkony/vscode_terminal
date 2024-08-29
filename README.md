@@ -23,3 +23,7 @@
 
 5. **Dump Terminal Output:**
    - To dump the current terminal session's output to an editor for the further analysis or logging purpose, use the `Dump` icon or `Serial Xterm: Dump Terminal Output to Editor` command
+
+6. **Copy and Paste by L-Button Click:**
+   - You can copy the selected text by L-Button click and paste it in cursor position by L-Button Click.
+
