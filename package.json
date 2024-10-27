@@ -1,8 +1,8 @@
 {
   "name": "serial-xterm",
   "displayName": "Serial xTerm",
-  "description": "A serial terminal using xTerm",
-  "version": "0.9.5",
+  "description": "Serial xTerm",
+  "version": "0.9.6",
   "publisher": "youkony",
   "icon": "icon.png",
   "engines": {
@@ -47,8 +47,8 @@
     },
     "commands": [
       {
-        "command": "serial-xterm.start",
-        "title": "Start Terminal With New Configuration",
+        "command": "serial-xterm.connect",
+        "title": "Connect",
         "category": "Serial xTerm",
         "icon": {
           "dark": "static/images/dark/connect.svg",
@@ -56,8 +56,8 @@
         }
       },
       {
-        "command": "serial-xterm.stop",
-        "title": "Stop Terminal",
+        "command": "serial-xterm.disconnect",
+        "title": "Disconnect",
         "category": "Serial xTerm",
         "icon": {
           "dark": "static/images/dark/disconnect.svg",
@@ -66,24 +66,24 @@
       },
       {
         "command": "serial-xterm.clear",
-        "title": "Clear",
+        "title": "Clear terminal",
         "category": "Serial xTerm",
         "icon": "$(clear-all)"
       },
       {
         "command": "serial-xterm.dump",
-        "title": "Dump Terminal Output to Editor",
+        "title": "Dump terminal to editor",
         "category": "Serial xTerm",
         "icon": "$(go-to-file)"
       },
       {
         "command": "serial-xterm.send",
-        "title": "Send the data in argument to serial port",
+        "title": "Send text",
         "category": "Serial xTerm"
       },
       {
-        "command": "serial-xterm.pipe",
-        "title": "Connect pipe to requester for RX data",
+        "command": "serial-xterm.rx_callback",
+        "title": "Register RX callback",
         "category": "Serial xTerm"
       }
     ],
@@ -95,12 +95,12 @@
           "group": "navigation@0"
         },
         {
-          "command": "serial-xterm.start",
+          "command": "serial-xterm.connect",
           "when": "view == serial-xterm-view && !serial-xterm:running",
           "group": "navigation@1"
         },
         {
-          "command": "serial-xterm.stop",
+          "command": "serial-xterm.disconnect",
           "when": "view == serial-xterm-view && serial-xterm:running",
           "group": "navigation@1"
         },

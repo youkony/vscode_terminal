@@ -4,35 +4,27 @@ import TerminalWebview from './terminalWebview';
 import { Terminal } from 'xterm';
 
 export function activate(context: vscode.ExtensionContext) {
-
-	console.log('\"serial-xterm\" is now acfftive!');
-
+	console.log('Activating Serial XTerm')
 	const termView = new TerminalWebview(context);
-
-	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.stop', () => {
+	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.disconnect', () => {
 		termView.disconnect();
 	}));
-	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.clear', () => {
-		vscode.window.showInformationMessage('serial-xterm.clear!');
-		termView.clear();
-	}));
-	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.start', () => {
+	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.connect', () => {
 		termView.connect();
 	}));
+	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.clear', () => {
+		termView.clear();
+	})); 
 	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.dump', () => {
 		termView.dump();
 	}));
 	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.send', (args: any) => {
 		termView.send(args);
 	}));
-	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.pipe', (args: any) => {
-		if(args.pipe == 'serial-xterm.send') {  // self test
-			vscode.commands.executeCommand(args.pipe, args);
-		} 
-		else {
-			termView.setPipe(args);
-		}
+	context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.rx_callback', (args: any) => {
+		termView.setRxCallback(args);
 	}));
+	console.log('Serial XTerm has been activated')
 }
 
 // this method is called when your extension is deactivated

@@ -11,7 +11,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 	private _port?: SerialPort;
 	private _view?: WebviewView;
     private readonly _extensionUri: Uri;
-	private _pipe?: string;
+	private _rx_callback: string = '';
 
 	constructor(protected context: ExtensionContext) {
     this._extensionUri = context.extensionUri;
@@ -42,7 +42,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 
 		webviewView.webview.onDidReceiveMessage(message => {
 			switch (message.type) {
-				case 'stdin':
+				case 'tx':
 					this._serialWrite(message.value);
 					break;
 				case 'dump':
@@ -55,13 +55,15 @@ export default class TerminalWebview implements WebviewViewProvider {
 						content: log
 					}).then( doc => {
 						// to do
-					});
+					}); 
 					break;
-				case 'copy':
+				case 'ctrl_c':
 					vscode.env.clipboard.writeText(message.value);
+					//vscode.window.showInformationMessage('ctrl+c');
 					break;
-				case 'cmd':
-					console.log('cmd: ' + message.value);
+				case 'ctrl_v':
+					vscode.env.clipboard.readText().then(clipText => {this._serialWrite(new TextEncoder().encode(clipText));});            		
+            		//vscode.window.showInformationMessage('ctrl+v');
 					break;
 			}
 		});
@@ -85,7 +87,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 			this._port = port;
 		} catch (error) {
 			this._postMessage({
-				type: 'stdout',
+				type: 'rx',
 				value: `\x1b[31m${error}\x1b[m\r\n`
 			});
 			return;
@@ -104,7 +106,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 		let self = this;
 		port.on('readable', function () {
 			self._postMessage({
-				type: 'stdout',
+				type: 'rx',
 				value: port.read().toString()
 			});
 		});
@@ -123,10 +125,6 @@ export default class TerminalWebview implements WebviewViewProvider {
 		});
 	}
 
-	public async setPipe(args: any) {
-		this._pipe = args.id;
-	}
-
 	public async clear() {
 		this._postMessage({type: 'clear'});
 	}
@@ -136,18 +134,27 @@ export default class TerminalWebview implements WebviewViewProvider {
 	}
 
 	public async send(args: any) {
-		if (this._port?.isOpen) {
+		if (this._port?.isOpen && args != undefined) {
 			this._serialWrite(args.value);
 		}
 		else{
-			vscode.window.showInformationMessage('Port is not opened. Can not send: \"' + args.value + '\"');
+			vscode.window.showInformationMessage('Disconnected or Argument is \"UNDEFINED\".');
+		}
+	}
+
+	public async setRxCallback(args: any) {
+		if(args != undefined) {
+			this._rx_callback = args.rx_callback;
+			vscode.window.showInformationMessage('Registered rx_callback is \"' + args.rx_callback + '\"');
+		} else {
+			vscode.window.showInformationMessage('Argument is \"UNDEFINED\".');
 		}
 	}
 
 	private _getHtmlForWebview(webview: Webview) {
 		// Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
 		const mainUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'main.js'));
-		const helpUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'help.js'));
+		const toolURI = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'tool.js'));
 		const usageUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'usage.html'));
 
 		const XtermUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'node_modules', 'xterm', 'lib', 'xterm.js'));
@@ -156,7 +163,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 		// Do the same for the stylesheet.
 		const styleVSCodeUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'vscode.css'));
 		const styleXtermUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'node_modules', 'xterm', 'css', 'xterm.css'));
-		const styleHelpUri = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'help.css'));
+		const styleToolURI = webview.asWebviewUri(Uri.joinPath(this._extensionUri, 'media', 'tool.css'));
 
 		// Use a nonce to only allow a specific script to be run.
 		const nonce = getNonce();
@@ -165,34 +172,33 @@ export default class TerminalWebview implements WebviewViewProvider {
 			<html lang="en">
 			<head>
 				<link href="${styleXtermUri}" rel="stylesheet">
-				<link href="${styleHelpUri}" rel="stylesheet">
-				<script nonce="${nonce}" src="${XtermUri}"}</script>
-				<script nonce="${nonce}" src="${fitUri}"}</script>
+				<link href="${styleToolURI}" rel="stylesheet">
+				<script nonce="${nonce}" src="${XtermUri}"></script>
+				<script nonce="${nonce}" src="${fitUri}"></script>
 			</head>
-			<body oncontextmenu="return paste()">
-				<!-- help btn --> 
-				<input id='help' type="button" value="Help" class="help"><br>
+			<body oncontextmenu="return paste()"> 
+				<!-- tool btn --> 
+				<input id="Tool" type="button" value="Tool" class="Tool"><br>
 
 				<!-- terminal --> 
 				<div id="terminal"></div>
 				<script nonce="${nonce}" src="${mainUri}"></script>
 
-				<!-- help-view section --> 
-				<section>
-					<h1>Serial Xterm - v0.9.5</h1>
-					<p><strong>Serial Xterm</strong> is a Visual Studio Code extension designed to facilitate communication with serial devices directly from your editor. It provides an integrated terminal with features such as transmit (TX), receive (RX), terminal clearing, and the ability to dump terminal output for further analysis.</p>	
-					<h2>Features</h2>
-					<ul>
-						<li><strong>Transmit (TX):</strong> Send the typed characters to the connected serial device directly.</li>
-						<li><strong>Receive (RX):</strong> Receive and display data from the serial device in real-time.</li>
-						<li><strong>Terminal Clear:</strong> Clear the terminal to manage output more effectively.</li>
-						<li><strong>Dump Terminal Output:</strong> Dump the current terminal output to a new editor for further analysis or logging purposes.</li>
-						<li><strong>Copy and Paste by L-Button Click:</strong> Copy the selected text by L-Button click and paste it in cursor position by L-Button Click.</li> 
-					</ul>
-
-					<textarea id="help-view" class="help-view"></textarea> 
+				<!-- tool-view section --> 
+				<section id='Tool_view' >
+					<h3>Text Hilightling</h3><br>
+					<p style="color: lime;">Green</p> 
+					<input type="text" id="hilight_green" value="success|pass|ok|start" size="50"><br>
+					<p style="color: yellow;">Yellow</p> 
+					<input type="text" id="hilight_yellow" value="warnning|caution" size="50"><br>
+					<p style="color: red;">Red</p> 
+					<input type="text" id="hilight_red" value="error|fail" size="50"><br><br>
+					<input type="checkbox" id="hilight_en" name="Hilight_en" checked>
+        			<label for="hilight_en">Enable Highlighting</label><br><br>
+    				<input id="Apply" type="button" value="Apply" class="Tool"><br>
+					<input id="Cancel" type="button" value="Cancel" class="Tool">
 				</section>
-				<script nonce="${nonce}" src="${helpUri}"}</script>
+				<script nonce="${nonce}" src="${toolURI}"}</script>
 			</body>
 			</html>`;
 	}
@@ -201,14 +207,14 @@ export default class TerminalWebview implements WebviewViewProvider {
 		if (this._view) {
 			//this._view.show?.(true);
 			this._view.webview.postMessage(data);
-			this._pipeMessage(data);
+			this._remoteMessage(data);
 		}
 	}
 
-	private _pipeMessage(data: object) {
+	private _remoteMessage(data: object) {
 		const _data: any = data;
-		if(_data.type == 'stdout' && this._pipe?.includes('.pipe')) {
-			vscode.commands.executeCommand(this._pipe, _data);
+		if(_data.type == 'rx' && this._rx_callback?.includes('.serial-xterm.rx')) {
+			vscode.commands.executeCommand(this._rx_callback, _data);
 		} 
 	}
 

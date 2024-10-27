@@ -11,26 +11,38 @@ let latestValue = 0;
 let encoder;
 let fit;
 
+let hilight_en;
+let hilight_red;
+let hilight_green;
+let hilight_yellow;
+
+let regExp_red;
+let regExp_yellow;
+let regExp_green;
+
 async function serialWrite(data) {
 	encoder = new TextEncoder();
 	const dataArrayBuffer = encoder.encode(data);
   vscode.postMessage({
-    type: 'stdin',
+    type: 'tx',
     value: dataArrayBuffer
   });
 }
 
-let copied = ''; 
+let selectedText = ''; 
 function paste() {
   if(term.hasSelection() == true) {
-    copied = term.getSelection();
+    selectedText = term.getSelection();
     term.clearSelection();
     vscode.postMessage({
-      type: 'copy',
-      value: copied
+      type: 'ctrl_c',
+      value: selectedText
+    });
+  } else {
+    vscode.postMessage({
+      type: 'ctrl_v',
     });
   }
-  serialWrite(copied);
   return false;
 }
 
@@ -64,14 +76,38 @@ function paste() {
       switch (message.type) {
         case 'connected':
           if (message.value) {
-            term.write('\x1b[31mConnected success !\x1b[m\r\n');
+            term.write('\x1b[1;32mConnected !\x1b[m\r\n');
           } else {
-            term.write('\x1b[31m\r\nDisconnected !\x1b[m\r\n');
+            term.write('\x1b[1;31m\r\nDisconnected !\x1b[m\r\n');
           }
           break;
-        case 'stdout':
+        case 'rx':
           if (message.value) {
+            lineBuffer += message.value;
             term.write(message.value);
+            if(message.value.includes('\n')) {
+              if(hilight_en == true && regExp_red.test(lineBuffer)) {
+                term.write('\x1b[2K'); // Clear the entire line
+                term.write('\x1b[G');  // Move cursor to the beginning of the line      
+                term.write('\x1b[31m'); // text color is red
+                term.write(lineBuffer);
+                term.write('\x1b[m'); // text color is reset              
+              } else if(regExp_yellow.test(lineBuffer)) {
+                term.write('\x1b[2K'); // Clear the entire line
+                term.write('\x1b[G');  // Move cursor to the beginning of the line      
+                term.write('\x1b[33m'); // text color is yellow
+                term.write(lineBuffer);
+                term.write('\x1b[m'); // text color is reset              
+              } else if(regExp_green.test(lineBuffer)) {
+                term.write('\x1b[2K'); // Clear the entire line
+                term.write('\x1b[G');  // Move cursor to the beginning of the line      
+                term.write('\x1b[32m'); // text color is green
+                term.write(lineBuffer);
+                term.write('\x1b[m'); // text color is reset              
+              }
+
+              lineBuffer = '';
+            }
           }
           break;
         case 'clear':
@@ -86,7 +122,7 @@ function paste() {
             value: buf
           });
           break;
-        default:
+         default:
           break;
       }
   });
