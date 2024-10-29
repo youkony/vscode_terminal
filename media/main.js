@@ -46,6 +46,37 @@ function paste() {
   return false;
 }
 
+function hilight_write(data) {
+
+  for( let i = 0; i < data.length; i++) {
+    wordBuffer += data[i];
+
+    if(/\s/.test(wordBuffer)) {   // check the space, cr, lf .. 
+      wordBuffer = wordBuffer.substring(0, wordBuffer.length - 1);
+      const moves = wordBuffer.length;
+      if(regExp_red.test(wordBuffer)) {
+        term.write('\x1b[' + moves + 'D');  // move cursor backword
+        term.write('\x1b[1;31m'); // red color
+        term.write(wordBuffer); 
+        term.write('\x1b[m'); // reset color
+      } else if(regExp_yellow.test(wordBuffer)) {
+        term.write('\x1b[' + moves + 'D');  // move cursor backword
+        term.write('\x1b[1;33m'); // yellow color
+        term.write(wordBuffer); 
+        term.write('\x1b[m'); // reset color
+      } else if(regExp_green.test(wordBuffer)) {
+        term.write('\x1b[' + moves + 'D');  // move cursor backword
+        term.write('\x1b[1;32m'); // green color
+        term.write(wordBuffer); 
+        term.write('\x1b[m'); // reset color
+      }
+      wordBuffer = '';
+    }
+    term.write(data[i]); 
+  }           
+
+}
+
 (function () {
   window.onload = function() {
     // @ts-ignore
@@ -83,33 +114,11 @@ function paste() {
           break;
         case 'rx':
           if (message.value) {
-            for( let i = 0; i < message.value.length; i++) {
-              if( hilight_en ) {
-                wordBuffer += message.value[i];
-                if(/\s/.test(wordBuffer)) {   // check the space, cr, lf .. 
-                  wordBuffer = wordBuffer.substring(0, wordBuffer.length - 1);
-                  const moves = wordBuffer.length;
-                  if(regExp_red.test(wordBuffer)) {
-                    term.write('\x1b[' + moves + 'D');  // move cursor backword
-                    term.write('\x1b[1;31m'); // red color
-                    term.write(wordBuffer); 
-                    term.write('\x1b[m'); // reset color
-                  } else if(regExp_yellow.test(wordBuffer)) {
-                    term.write('\x1b[' + moves + 'D');  // move cursor backword
-                    term.write('\x1b[1;33m'); // yellow color
-                    term.write(wordBuffer); 
-                    term.write('\x1b[m'); // reset color
-                  } else if(regExp_green.test(wordBuffer)) {
-                    term.write('\x1b[' + moves + 'D');  // move cursor backword
-                    term.write('\x1b[1;32m'); // green color
-                    term.write(wordBuffer); 
-                    term.write('\x1b[m'); // reset color
-                  }
-                  wordBuffer = '';
-                }
-              }
-              term.write(message.value[i]); 
-            }         
+            if( hilight_en ) {
+              hilight_write(message.value);
+            } else {
+              term.write(message.value); 
+            }
           }
           break;
         case 'clear':

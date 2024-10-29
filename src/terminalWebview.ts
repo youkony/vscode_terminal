@@ -193,7 +193,7 @@ export default class TerminalWebview implements WebviewViewProvider {
 					<input type="text" id="hilight_yellow" value="warnning|caution" size="50"><br>
 					<p style="color: red;">Red</p> 
 					<input type="text" id="hilight_red" value="error|fail" size="50"><br><br>
-					<input type="checkbox" id="hilight_en" name="Hilight_en" checked>
+					<input type="checkbox" id="hilight_en" name="Hilight_en" >
         			<label for="hilight_en">Enable Highlighting</label><br><br>
     				<input id="Apply" type="button" value="Apply" class="Tool"><br>
 					<input id="Cancel" type="button" value="Cancel" class="Tool">
