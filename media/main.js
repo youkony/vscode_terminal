@@ -54,7 +54,6 @@ function paste() {
       rows: 40,
     });
 
-    term.setOption('scrollback', 9999999);
     term.onData(function (data){
       serialWrite(data);
     });
