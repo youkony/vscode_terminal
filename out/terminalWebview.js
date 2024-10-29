@@ -90,10 +90,9 @@ class TerminalWebview {
         });
         let self = this;
         port.on('readable', function () {
-            self._postMessage({
-                type: 'rx',
-                value: port.read().toString()
-            });
+            let message = { type: 'rx', value: port.read().toString() };
+            //console.log(message.value); 
+            self._postMessage(message);
         });
         vscode_1.commands.executeCommand('setContext', 'serial-xterm:running', !0);
     }
