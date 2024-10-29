@@ -51,9 +51,10 @@ function paste() {
     // @ts-ignore
     term = new Terminal({
       cols: 120,
-      rows: 40
+      rows: 40,
     });
 
+    term.setOption('scrollback', 9999999);
     term.onData(function (data){
       serialWrite(data);
     });
