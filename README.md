@@ -9,8 +9,8 @@
 ## Usage
 
 1. **Open and close Serial Port**
-   - To open serial port, use the `Connect` icon or `Serial Xterm: Start Terminal With New Configuration` command in command palette (`Ctrl+Shift+P`).
-   - To close serial port, use the `Disconnect` icon or `Serial Xterm: Stop Terminal` command.
+   - To open serial port, use the `Connect` icon.
+   - To close serial port, use the `Disconnect` icon.
 
 2. **Transmit Data**
    - You can send data to the connected serial device by typing in the terminal.
@@ -24,10 +24,10 @@
                     When RX happens, Serial Xterm executes 'xxxxxxx.serial-xterm.rx' with the argument {type: 'rx', value: 'RX string'} 
 
 4. **Clear Terminal**
-   - To clear the terminal output, use the `Clear` icon or `Serial Xterm:  Clear` command.
+   - To clear the terminal output, use the `Clear` icon.
 
 5. **Dump Terminal Output**
-   - To dump the current terminal session's output to an editor for the further analysis or logging purpose, use the `Dump` icon or `Serial Xterm: Dump Terminal Output to Editor` command
+   - To dump the current terminal session's output to an editor for the further analysis or logging purpose, use the `Dump` icon.
 
 6. **Copy and Paste by L-Button Click**
    - You can copy the selected text by L-button click

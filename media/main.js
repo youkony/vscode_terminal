@@ -51,7 +51,7 @@ function paste() {
     // @ts-ignore
     term = new Terminal({
       cols: 120,
-      rows: 40
+      rows: 40,
     });
 
     term.onData(function (data){
@@ -84,9 +84,9 @@ function paste() {
         case 'rx':
           if (message.value) {
             for( let i = 0; i < message.value.length; i++) {
-              wordBuffer += message.value[i];
               if( hilight_en ) {
-                if(/\s/.test(wordBuffer, 'g')) {   // check the space, cr, lf .. 
+                wordBuffer += message.value[i];
+                if(/\s/.test(wordBuffer)) {   // check the space, cr, lf .. 
                   wordBuffer = wordBuffer.substring(0, wordBuffer.length - 1);
                   const moves = wordBuffer.length;
                   if(regExp_red.test(wordBuffer)) {
