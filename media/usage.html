@@ -1,46 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serial Xterm - VS Code Extension</title>
-</head>
-<body>
+xml
+<h1>Serial Xterm - VS Code Extension</h1>
 
-    <h1>Serial Xterm - VS Code Extension</h1>
+<h2>Overview</h2>
 
-    <h2>Overview</h2>
-    <p><strong>Serial Xterm</strong> is a Visual Studio Code extension designed to facilitate communication with serial devices directly from your editor. It provides an integrated terminal with features such as transmit (TX), receive (RX), terminal clearing, and the ability to dump terminal output for further analysis.</p>
+<p><strong>Serial Xterm</strong> is a Visual Studio Code extension designed to facilitate communication with serial devices directly from your editor. It provides an integrated terminal with features such as transmit (TX), receive (RX), terminal clearing, and the ability to dump terminal output for further analysis.</p>
 
-    <h2>Features</h2>
+<img src="https://raw.githubusercontent.com/youkony/contents/main/serial-xterm.gif" alt="Serial Xterm">
+
+<h2>Usage</h2>
+
+<ol>
+  <li>
+    <strong>Open and close Serial Port</strong>
     <ul>
-        <li><strong>Transmit (TX):</strong> Send data to the connected serial device directly from the VS Code terminal.</li>
-        <li><strong>Receive (RX):</strong> Receive and display data from the serial device in real-time.</li>
-        <li><strong>Terminal Clear:</strong> Clear the terminal to manage output more effectively.</li>
-        <li><strong>Dump Terminal Output:</strong> Save the current terminal output to a file for later analysis or logging purposes.</li>
+      <li>To open serial port, use the <code>Connect</code> icon or <code>Serial Xterm: Start Terminal With New Configuration</code> command in command palette (<code>Ctrl+Shift+P</code>).</li>
+      <li>To close serial port, use the <code>Disconnect</code> icon or <code>Serial Xterm: Stop Terminal</code> command.</li>
     </ul>
+  </li>
 
-    <h2>Usage</h2>
-    <ol>
-        <li><strong>Open Serial Xterm:</strong>
-            <p>Once installed, you can open Serial Xterm from the command palette (<code>Ctrl+Shift+P</code>) by searching for <em>Serial Xterm: Open</em>.</p>
-        </li>
-        <li><strong>Connect to a Serial Port:</strong>
-            <p>After opening Serial Xterm, select the serial port you want to connect to and set the baud rate.</p>
-        </li>
-        <li><strong>Transmit Data (TX):</strong>
-            <p>You can send data to the connected serial device by typing in the terminal and pressing <code>Enter</code>.</p>
-        </li>
-        <li><strong>Receive Data (RX):</strong>
-            <p>Incoming data from the connected serial device will be displayed in the terminal in real-time.</p>
-        </li>
-        <li><strong>Clear Terminal:</strong>
-            <p>To clear the terminal output, use the <em>Serial Xterm: Clear</em> command available in the command palette.</p>
-        </li>
-        <li><strong>Dump Terminal Output:</strong>
-            <p>To save the current terminal session's output, use the <em>Serial Xterm: Dump</em> command, and choose a file location.</p>
-        </li>
-    </ol>
+  <li>
+    <strong>Transmit Data</strong>
+    <ul>
+      <li>You can send data to the connected serial device by typing in the terminal.</li>
+      <li>Serial Xterm can send data by the command <code>serial-xterm.send</code> issued by other extensions.</li>
+      <li>(Example code) <code>vscode.commands.executeCommand('serial-xterm.send', {type: 'tx', value: 'TX string'});</code></li>
+    </ul>
+  </li>
 
-</body>
-</html>
+  <li>
+    <strong>Receive Data</strong>
+    <ul>
+      <li>Incoming data from the connected serial device will be displayed in the terminal in real-time.</li>
+      <li>Serial Xterm can redirect the received data to an extension registered it's rx-callback command.</li>
+      <li>(Example code) <code>vscode.commands.executeCommand('serial-xterm.rx_callback', {rx-callback: 'xxxxxxx.serial-xterm.rx'});</code></li>
+      <li>When RX happens, Serial Xterm executes 'xxxxxxx.serial-xterm.rx' with the argument <code>{type: 'rx', value: 'RX string'}</code></li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Clear Terminal</strong>
+    <ul>
+      <li>To clear the terminal output, use the <code>Clear</code> icon or <code>Serial Xterm:  Clear</code> command.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Dump Terminal Output</strong>
+    <ul>
+      <li>To dump the current terminal session's output to an editor for the further analysis or logging purpose, use the <code>Dump</code> icon or <code>Serial Xterm: Dump Terminal Output to Editor</code> command</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Copy and Paste by L-Button Click</strong>
+    <ul>
+      <li>You can copy the selected text by L-button click</li>
+      <li>You can paste/input the text in clipboard to terminal by L-button click.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Word Hilighting</strong>
+    <ul>
+      <li>You can register the words for hilighting in Tool menu</li>
+      <li>Serial Xterm displays the registered words with Red, Green, or Yellow color.</li>
+    </ul>
+  </li>
+</ol>

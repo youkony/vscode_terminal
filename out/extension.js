@@ -4,17 +4,16 @@ exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
 const terminalWebview_1 = require("./terminalWebview");
 function activate(context) {
-    console.log('\"serial-xterm\" is now acfftive!');
+    console.log('Activating Serial XTerm');
     const termView = new terminalWebview_1.default(context);
-    context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.stop', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.disconnect', () => {
         termView.disconnect();
     }));
-    context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.clear', () => {
-        vscode.window.showInformationMessage('serial-xterm.clear!');
-        termView.clear();
-    }));
-    context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.start', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.connect', () => {
         termView.connect();
+    }));
+    context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.clear', () => {
+        termView.clear();
     }));
     context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.dump', () => {
         termView.dump();
@@ -22,14 +21,10 @@ function activate(context) {
     context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.send', (args) => {
         termView.send(args);
     }));
-    context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.pipe', (args) => {
-        if (args.pipe == 'serial-xterm.send') { // self test
-            vscode.commands.executeCommand(args.pipe, args);
-        }
-        else {
-            termView.setPipe(args);
-        }
+    context.subscriptions.push(vscode.commands.registerCommand('serial-xterm.rx_callback', (args) => {
+        termView.setRxCallback(args);
     }));
+    console.log('Serial XTerm has been activated');
 }
 exports.activate = activate;
 // this method is called when your extension is deactivated
