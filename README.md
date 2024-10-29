@@ -15,13 +15,13 @@
 2. **Transmit Data**
    - You can send data to the connected serial device by typing in the terminal.
    - Serial Xterm can send data by the command `serial-xterm.send` issued by other extensions. 
-     (Example) Transmittion: vscode.commands.executeCommand('serial-xterm.send', {type: 'tx', value: 'string'});
+     (Example code) vscode.commands.executeCommand('serial-xterm.send', {type: 'tx', value: 'TX string'});
 
 3. **Receive Data**
    - Incoming data from the connected serial device will be displayed in the terminal in real-time.
    - Serial Xterm can redirect the received data to an extension registered it's rx-callback command.
-     (Example) Registeration: vscode.commands.executeCommand('serial-xterm.rx_callback', {rx-callback: 'xxxx.serial-xterm.rx'});
-               Then, Serial Xterm executes 'xxxx.serial-xterm.rx' with the argument {type: 'rx', value: 'string'}
+     (Example code) vscode.commands.executeCommand('serial-xterm.rx_callback', {rx-callback: 'xxxxxxx.serial-xterm.rx'});
+                    When RX happens, Serial Xterm executes 'xxxxxxx.serial-xterm.rx' with the argument {type: 'rx', value: 'RX string'} 
 
 4. **Clear Terminal**
    - To clear the terminal output, use the `Clear` icon or `Serial Xterm:  Clear` command.
@@ -32,4 +32,9 @@
 6. **Copy and Paste by L-Button Click**
    - You can copy the selected text by L-button click
    - You can paste/input the text in clipboard to terminal by L-button click.
+
+7. **Word Hilighting**
+   - You can register the words for hilighting in Tool menu
+   - Serial Xterm displays the registered words with Red, Green, or Yellow color.
+
 

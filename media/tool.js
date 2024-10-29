@@ -23,9 +23,9 @@ apply.addEventListener('click', function() {
     hilight_green = input_hilight_green.value;
     hilight_yellow = input_hilight_yellow.value;
 
-    regExp_red = new RegExp(`(${hilight_red})`, 'g');
-    regExp_green = new RegExp(`(${hilight_green})`, 'g');
-    regExp_yellow = new RegExp(`(${hilight_yellow})`, 'g');
+    regExp_red = new RegExp(hilight_red, 'i');
+    regExp_green = new RegExp(hilight_green, 'i');
+    regExp_yellow = new RegExp(hilight_yellow, 'i');
 
     section.style.left='-600px';
 })

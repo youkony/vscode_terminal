@@ -6,7 +6,7 @@ let vscode;
  * @param {{ innerWidth: number; innerHeight: number; }} win
  */
 
-let lineBuffer = '';
+let wordBuffer = '';
 let latestValue = 0;
 let encoder;
 let fit;
@@ -83,31 +83,33 @@ function paste() {
           break;
         case 'rx':
           if (message.value) {
-            lineBuffer += message.value;
-            term.write(message.value);
-            if(message.value.includes('\n')) {
-              if(hilight_en == true && regExp_red.test(lineBuffer)) {
-                term.write('\x1b[2K'); // Clear the entire line
-                term.write('\x1b[G');  // Move cursor to the beginning of the line      
-                term.write('\x1b[31m'); // text color is red
-                term.write(lineBuffer);
-                term.write('\x1b[m'); // text color is reset              
-              } else if(regExp_yellow.test(lineBuffer)) {
-                term.write('\x1b[2K'); // Clear the entire line
-                term.write('\x1b[G');  // Move cursor to the beginning of the line      
-                term.write('\x1b[33m'); // text color is yellow
-                term.write(lineBuffer);
-                term.write('\x1b[m'); // text color is reset              
-              } else if(regExp_green.test(lineBuffer)) {
-                term.write('\x1b[2K'); // Clear the entire line
-                term.write('\x1b[G');  // Move cursor to the beginning of the line      
-                term.write('\x1b[32m'); // text color is green
-                term.write(lineBuffer);
-                term.write('\x1b[m'); // text color is reset              
+            for( let i = 0; i < message.value.length; i++) {
+              wordBuffer += message.value[i];
+              if( hilight_en ) {
+                if(/\s/.test(wordBuffer, 'g')) {   // check the space, cr, lf .. 
+                  wordBuffer = wordBuffer.substring(0, wordBuffer.length - 1);
+                  const moves = wordBuffer.length;
+                  if(regExp_red.test(wordBuffer)) {
+                    term.write('\x1b[' + moves + 'D');  // move cursor backword
+                    term.write('\x1b[1;31m'); // red color
+                    term.write(wordBuffer); 
+                    term.write('\x1b[m'); // reset color
+                  } else if(regExp_yellow.test(wordBuffer)) {
+                    term.write('\x1b[' + moves + 'D');  // move cursor backword
+                    term.write('\x1b[1;33m'); // yellow color
+                    term.write(wordBuffer); 
+                    term.write('\x1b[m'); // reset color
+                  } else if(regExp_green.test(wordBuffer)) {
+                    term.write('\x1b[' + moves + 'D');  // move cursor backword
+                    term.write('\x1b[1;32m'); // green color
+                    term.write(wordBuffer); 
+                    term.write('\x1b[m'); // reset color
+                  }
+                  wordBuffer = '';
+                }
               }
-
-              lineBuffer = '';
-            }
+              term.write(message.value[i]); 
+            }         
           }
           break;
         case 'clear':
