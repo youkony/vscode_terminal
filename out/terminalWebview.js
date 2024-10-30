@@ -162,9 +162,9 @@ class TerminalWebview {
 				<section id='Tool_view' >
 					<h3>Text Hilightling</h3><br>
 					<p style="color: lime;">Green</p> 
-					<input type="text" id="hilight_green" value="success|pass|ok|start" size="50"><br>
+					<input type="text" id="hilight_green" value="success|pass|ok|start|finish" size="50"><br>
 					<p style="color: yellow;">Yellow</p> 
-					<input type="text" id="hilight_yellow" value="warnning|caution" size="50"><br>
+					<input type="text" id="hilight_yellow" value="warnning|caution|delay" size="50"><br>
 					<p style="color: red;">Red</p> 
 					<input type="text" id="hilight_red" value="error|fail" size="50"><br><br>
 					<input type="checkbox" id="hilight_en" name="Hilight_en" >
