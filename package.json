@@ -2,7 +2,7 @@
   "name": "serial-xterm",
   "displayName": "Serial xTerm",
   "description": "Serial xTerm",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "publisher": "youkony",
   "icon": "icon.png",
   "engines": {

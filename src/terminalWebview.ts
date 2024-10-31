@@ -105,10 +105,9 @@ export default class TerminalWebview implements WebviewViewProvider {
 		
 		let self = this;
 		port.on('readable', function () {
-			self._postMessage({
-				type: 'rx',
-				value: port.read().toString()
-			});
+			let message = {type:'rx', value: port.read().toString()};
+			//console.log(message.value); 
+			self._postMessage(message);
 		});
 		
 		commands.executeCommand('setContext', 'serial-xterm:running', !0);
@@ -188,12 +187,12 @@ export default class TerminalWebview implements WebviewViewProvider {
 				<section id='Tool_view' >
 					<h3>Text Hilightling</h3><br>
 					<p style="color: lime;">Green</p> 
-					<input type="text" id="hilight_green" value="success|pass|ok|start" size="50"><br>
+					<input type="text" id="hilight_green" value="success|pass|ok|start|finish" size="50"><br>
 					<p style="color: yellow;">Yellow</p> 
-					<input type="text" id="hilight_yellow" value="warnning|caution" size="50"><br>
+					<input type="text" id="hilight_yellow" value="warnning|caution|delay" size="50"><br>
 					<p style="color: red;">Red</p> 
 					<input type="text" id="hilight_red" value="error|fail" size="50"><br><br>
-					<input type="checkbox" id="hilight_en" name="Hilight_en" checked>
+					<input type="checkbox" id="hilight_en" name="Hilight_en" >
         			<label for="hilight_en">Enable Highlighting</label><br><br>
     				<input id="Apply" type="button" value="Apply" class="Tool"><br>
 					<input id="Cancel" type="button" value="Cancel" class="Tool">
