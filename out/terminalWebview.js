@@ -66,7 +66,7 @@ class TerminalWebview {
                     parity: config.parity,
                     stopBits: config.stopBits,
                 }, (err) => {
-                    err ? rej(`${config.path} can not open. Check the serial is conneted and retry.`) : res(port);
+                    err ? rej(`Can not open ${config.path}. Check the port is in use.`) : res(port);
                 });
             });
             this._port = port;
